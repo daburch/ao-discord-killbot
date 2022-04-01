@@ -1,6 +1,5 @@
 // Require the necessary discord.js classes
 const { Client, Intents } = require('discord.js');
-const { token } = require('../config/config.json');
 const ib = require('./image_builder');
 const fetch = require('cross-fetch');
 
@@ -17,7 +16,7 @@ client.on('error', error => {
 });
 
 // Login to Discord with your client's token
-client.login(token);
+client.login(process.env.TOKEN);
 
 const invoke = async(body) => {
 
