@@ -1,0 +1,19 @@
+---
+version: '3'
+services:
+  ao_discord_killbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ao_discord_killbot
+    container_name: ao_discord_killbot
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - GRAPHQL_URL=${GRAPHQL_URL}
+      - TOKEN=${TOKEN}
+
+networks:
+  default:
+    name: ao_tools_default

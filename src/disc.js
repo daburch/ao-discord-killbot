@@ -1,7 +1,8 @@
 // Require the necessary discord.js classes
 const { Client, Intents } = require('discord.js');
-const { channelID, token } = require('../config/config.json');
-const ib = require('./image_builder')
+const { token } = require('../config/config.json');
+const ib = require('./image_builder');
+const fetch = require('cross-fetch');
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -19,28 +20,66 @@ client.on('error', error => {
 client.login(token);
 
 const invoke = async(body) => {
-    const channel = await client.channels.fetch(channelID);
+
+    console.log("invoked...")
+
+    // get channelIds for the incoming guild event
+    fetch(process.env.GRAPHQL_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query: `query Query($where: RegisteredGuildWhere) {
+                registeredGuilds(where: $where) {
+                    guildId
+                    guildName
+                    discordChannels {
+                        channelId
+                    }
+                }
+            }`,
+            variables: `{
+                "where": {
+                    "guildId": "${body.InitiatingGuildId}"
+                }
+            }`
+        })
+      })
+        .then(r => r.json())
+        .then(d => sendToChannels(body, d.data.registeredGuilds[0].discordChannels))
+        .catch(err => {
+            console.error(err);
+          });
+}
+
+const sendToChannels = async(body, channels) => {
 
     const buffer = await ib.draw(body)
 
     // Send an embed with a local image inside
-    channel.send({
-        embeds: [
-            {
-                title: `${body?.Killer?.Name} killed ${body?.Victim?.Name}`,
-                url: `https://albiononline.com/en/killboard/kill/${body?.EventId}`,
-                image: {
-                    url: 'attachment://image.png'
-                }
-            }
-        ],
-        files: [{
-            attachment: buffer,
-            name: 'image.png',
-            description: 'A description of the file'
-        }]
-    })
-        .catch(console.error);
+    channels.forEach(ch => {
+        client.channels.fetch(ch["channelId"]).then(channel => {
+            channel.send({
+                embeds: [
+                    {
+                        title: `${body?.Killer?.Name} killed ${body?.Victim?.Name}`,
+                        url: `https://albiononline.com/en/killboard/kill/${body?.EventId}`,
+                        image: {
+                            url: 'attachment://image.png'
+                        }
+                    }
+                ],
+                files: [{
+                    attachment: buffer,
+                    name: 'image.png',
+                    description: 'A description of the file'
+                }]
+            })
+                .catch(console.error);
+        })
+    });
 }
 
 module.exports.invoke = invoke
