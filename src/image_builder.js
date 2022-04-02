@@ -12,7 +12,6 @@ const draw = async (body) => {
 
   ctx.font = '14px Sarpanch'
 
-
   if ((typeof(body) == 'undefined') || (body == null)) {
     return
   }
@@ -62,6 +61,9 @@ const draw = async (body) => {
   var formattedDate = formatDate(body.TimeStamp)
   ctx.fillText(`${formattedDate}`, 50, 50)
 
+  // group size
+  ctx.fillText(`group size: ${body.GroupMemberCount}`, 50, 80)
+
   // -- Fame -- 
   ctx.fillText(`${body.KillFame}`, 300, 475)
   
@@ -75,7 +77,7 @@ const drawSmall = async (body) => {
 
   const iconSize = 64
   const w = 660
-  const h = 248
+  const h = 228
 
   const canvas = createCanvas(w, h);
   const ctx = canvas.getContext("2d");
@@ -89,49 +91,49 @@ const drawSmall = async (body) => {
 
   // killer
   ctx.fillText(`${body.Killer.Name}`, 10, 20)
-  ctx.fillText(`[ ${body.Killer.GuildName} ]`, 10, 50)
-  ctx.fillText(`${body.Killer.AverageItemPower}`, 10, 80)
+  ctx.fillText(`[ ${body.Killer.GuildName} ]`, 10, 40)
+  ctx.fillText(`${body.Killer.AverageItemPower} IP`, 10, 60)
 
   // time
   var formattedDate = formatDate(body.TimeStamp)
   ctx.fillText(`${formattedDate}`, 250, 20)
 
   // fame
-  ctx.fillText(`${body.KillFame} Fame`, 250, 50)
+  ctx.fillText(`${body.KillFame} Fame`, 250, 40)
 
-  // TODO: group size
-  // ctx.fillText(`group size: ${body.}`, 250, 80)
+  // group size
+  ctx.fillText(`group size: ${body.GroupMemberCount}`, 250, 60)
 
   // victim
   ctx.fillText(`${body.Victim.Name}`, 500, 20)
-  ctx.fillText(`[ ${body.Victim.GuildName} ]`, 500, 50)
-  ctx.fillText(`${body.Victim.AverageItemPower}`, 500, 80)
+  ctx.fillText(`[ ${body.Victim.GuildName} ]`, 500, 40)
+  ctx.fillText(`${body.Victim.AverageItemPower} IP`, 500, 60)
 
   ctx.fillStyle = 'darkgreen'
-  ctx.fillRect(0, 100, w, 74)
-  await drawItem(ctx, body.Killer?.Equipment?.MainHand?.Type, body.Killer?.Equipment?.MainHand?.Quality, 10, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.OffHand?.Type, body.Killer?.Equipment?.OffHand?.Quality, 74, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Head?.Type, body.Killer?.Equipment?.Head?.Quality, 128, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Armor?.Type, body.Killer?.Equipment?.Armor?.Quality, 192, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Shoes?.Type, body.Killer?.Equipment?.Shoes?.Quality, 256, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Cape?.Type, body.Killer?.Equipment?.Cape?.Quality, 320, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Bag?.Type, body.Killer?.Equipment?.Bag?.Quality, 384, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Mount?.Type, body.Killer?.Equipment?.Mount?.Quality, 448, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Food?.Type, body.Killer?.Equipment?.Food?.Quality, 512, 105, iconSize)
-  await drawItem(ctx, body.Killer?.Equipment?.Potion?.Type, body.Killer?.Equipment?.Potion?.Quality, 576, 105, iconSize)
+  ctx.fillRect(0, 80, w, 74)
+  await drawItem(ctx, body.Killer?.Equipment?.MainHand?.Type, body.Killer?.Equipment?.MainHand?.Quality, 10, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.OffHand?.Type, body.Killer?.Equipment?.OffHand?.Quality, 74, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Head?.Type, body.Killer?.Equipment?.Head?.Quality, 128, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Armor?.Type, body.Killer?.Equipment?.Armor?.Quality, 192, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Shoes?.Type, body.Killer?.Equipment?.Shoes?.Quality, 256, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Cape?.Type, body.Killer?.Equipment?.Cape?.Quality, 320, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Bag?.Type, body.Killer?.Equipment?.Bag?.Quality, 384, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Mount?.Type, body.Killer?.Equipment?.Mount?.Quality, 448, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Food?.Type, body.Killer?.Equipment?.Food?.Quality, 512, 85, iconSize)
+  await drawItem(ctx, body.Killer?.Equipment?.Potion?.Type, body.Killer?.Equipment?.Potion?.Quality, 576, 85, iconSize)
 
   ctx.fillStyle = 'darkred'
-  ctx.fillRect(0, 174, w, 74)
-  await drawItem(ctx, body.Victim?.Equipment?.MainHand?.Type, body.Victim?.Equipment?.MainHand?.Quality, 10, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.OffHand?.Type, body.Victim?.Equipment?.OffHand?.Quality, 74, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Head?.Type, body.Victim?.Equipment?.Head?.Quality, 128, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Armor?.Type, body.Victim?.Equipment?.Armor?.Quality, 192, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Shoes?.Type, body.Victim?.Equipment?.Shoes?.Quality, 256, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Cape?.Type, body.Victim?.Equipment?.Cape?.Quality, 320, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Bag?.Type, body.Victim?.Equipment?.Bag?.Quality, 384, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Mount?.Type, body.Victim?.Equipment?.Mount?.Quality, 448, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Food?.Type, body.Victim?.Equipment?.Food?.Quality, 512, 179, iconSize)
-  await drawItem(ctx, body.Victim?.Equipment?.Potion?.Type, body.Victim?.Equipment?.Potion?.Quality, 576, 179, iconSize)
+  ctx.fillRect(0, 154, w, 74)
+  await drawItem(ctx, body.Victim?.Equipment?.MainHand?.Type, body.Victim?.Equipment?.MainHand?.Quality, 10, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.OffHand?.Type, body.Victim?.Equipment?.OffHand?.Quality, 74, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Head?.Type, body.Victim?.Equipment?.Head?.Quality, 128, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Armor?.Type, body.Victim?.Equipment?.Armor?.Quality, 192, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Shoes?.Type, body.Victim?.Equipment?.Shoes?.Quality, 256, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Cape?.Type, body.Victim?.Equipment?.Cape?.Quality, 320, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Bag?.Type, body.Victim?.Equipment?.Bag?.Quality, 384, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Mount?.Type, body.Victim?.Equipment?.Mount?.Quality, 448, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Food?.Type, body.Victim?.Equipment?.Food?.Quality, 512, 159, iconSize)
+  await drawItem(ctx, body.Victim?.Equipment?.Potion?.Type, body.Victim?.Equipment?.Potion?.Quality, 576, 159, iconSize)
 
   // write the image to file
   const buffer = canvas.toBuffer("image/png");
