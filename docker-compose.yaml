@@ -1,15 +1,15 @@
 ---
 version: '3'
 services:
-  ao_discord_killbot:
+  ao_discord_killbot_test:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ao_discord_killbot
-    container_name: ao_discord_killbot
+    image: ao_discord_killbot_test
+    container_name: ao_discord_killbot_test
     restart: unless-stopped
     ports:
-      - '8080:8080'
+      - '32005:8080'
     environment:
       - GRAPHQL_URL=${GRAPHQL_URL}
       - TOKEN=${TOKEN}

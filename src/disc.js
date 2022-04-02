@@ -55,7 +55,7 @@ const invoke = async(body) => {
 
 const sendToChannels = async(body, channels) => {
 
-    const buffer = await ib.draw(body)
+    const buffer = await ib.drawSmall(body)
 
     // Send an embed with a local image inside
     channels.forEach(ch => {
@@ -73,7 +73,7 @@ const sendToChannels = async(body, channels) => {
                 files: [{
                     attachment: buffer,
                     name: 'image.png',
-                    description: 'A description of the file'
+                    description: 'killboard image'
                 }]
             })
                 .catch(console.error);
